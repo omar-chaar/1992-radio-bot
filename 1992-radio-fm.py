@@ -513,7 +513,7 @@ class Music(commands.Cog):
                     'Bot is already in a voice channel.')
 
 
-bot = commands.Bot('music.', description='Yet another music bot.')
+bot = commands.Bot('tune.', description='Yet another music bot.')
 bot.add_cog(Music(bot))
 
 
@@ -521,4 +521,4 @@ bot.add_cog(Music(bot))
 async def on_ready():
     print('Logged in as:\n{0.user.name}\n{0.user.id}'.format(bot))
 
-bot.run('bot_token')
+bot.run(bot_token)

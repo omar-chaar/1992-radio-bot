@@ -187,13 +187,9 @@ class SongQueue(asyncio.Queue):
     def clear(self):
         self._queue.clear()
 
-    def shuffle(self):
-        random.shuffle(self._queue)
-
     def remove(self, index: int):
         del self._queue[index]
-
-
+        
 class VoiceState:
     def __init__(self, bot: commands.Bot, ctx: commands.Context):
         self.bot = bot
@@ -443,16 +439,6 @@ class Music(commands.Cog):
         embed = (discord.Embed(description='**{} tracks:**\n\n{}'.format(len(ctx.voice_state.songs), queue))
                  .set_footer(text='Viewing page {}/{}'.format(page, pages)))
         await ctx.send(embed=embed)
-
-    @commands.command(name='shuffle')
-    async def _shuffle(self, ctx: commands.Context):
-        """Shuffles the queue."""
-
-        if len(ctx.voice_state.songs) == 0:
-            return await ctx.send('Empty queue.')
-
-        ctx.voice_state.songs.shuffle()
-        await ctx.message.add_reaction('✅')
 
     @commands.command(name='remove')
     async def _remove(self, ctx: commands.Context, index: int):

@@ -278,7 +278,7 @@ class VoiceState:
         if self.is_playing:
             self.voice.stop()
 
-    async def stop(self):
+    async def off(self):
         self.songs.clear()
 
         if self.voice:
@@ -375,7 +375,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
-    @commands.command(name='pause')
+    @commands.command(name='mute')
     @commands.has_permissions(manage_guild=True)
     async def _mute(self, ctx: commands.Context):
         #TODO: CHANGE VOLUME 0 AND SAVE THE CURRENT VOLUME
@@ -385,7 +385,7 @@ class Music(commands.Cog):
             ctx.voice_state.voice.pause()
             await ctx.message.add_reaction('⏯')
 
-    @commands.command(name='resume')
+    @commands.command(name='unmute')
     @commands.has_permissions(manage_guild=True)
     async def _unmute(self, ctx: commands.Context):
         #TODO: CHANGE VOLUME TO BACK STATE
@@ -395,10 +395,10 @@ class Music(commands.Cog):
             ctx.voice_state.voice.resume()
             await ctx.message.add_reaction('⏯')
 
-    @commands.command(name='stop')
+    @commands.command(name='off')
     @commands.has_permissions(manage_guild=True)
-    async def _stop(self, ctx: commands.Context):
-        #TODO: CHANGE NAME TO OFF
+    async def _off(self, ctx: commands.Context):
+       
         """Stops playing song and clears the queue."""
 
         ctx.voice_state.songs.clear()

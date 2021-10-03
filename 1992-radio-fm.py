@@ -22,7 +22,22 @@ import discord
 import youtube_dl
 from async_timeout import timeout
 from discord.ext import commands
+
 from credentials import bot_token
+
+# Logging
+
+import logging
+
+logger = logging.getLogger('discord')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(
+    filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter(
+    '%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
+
+# End of Logging
 
 # Silence useless bug reports messages
 youtube_dl.utils.bug_reports_message = lambda: ''

@@ -366,7 +366,8 @@ class Music(commands.Cog):
 
     @commands.command(name='pause')
     @commands.has_permissions(manage_guild=True)
-    async def _pause(self, ctx: commands.Context):
+    async def _mute(self, ctx: commands.Context):
+        #TODO: CHANGE VOLUME 0 AND SAVE THE CURRENT VOLUME
         """Pauses the currently playing song."""
 
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_playing():
@@ -375,7 +376,8 @@ class Music(commands.Cog):
 
     @commands.command(name='resume')
     @commands.has_permissions(manage_guild=True)
-    async def _resume(self, ctx: commands.Context):
+    async def _unmute(self, ctx: commands.Context):
+        #TODO: CHANGE VOLUME TO BACK STATE
         """Resumes a currently paused song."""
 
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
@@ -385,6 +387,7 @@ class Music(commands.Cog):
     @commands.command(name='stop')
     @commands.has_permissions(manage_guild=True)
     async def _stop(self, ctx: commands.Context):
+        #TODO: CHANGE NAME TO OFF
         """Stops playing song and clears the queue."""
 
         ctx.voice_state.songs.clear()
@@ -477,8 +480,9 @@ class Music(commands.Cog):
         ctx.voice_state.loop = not ctx.voice_state.loop
         await ctx.message.add_reaction('✅')
 
-    @commands.command(name='play')
-    async def _play(self, ctx: commands.Context, *, search: str):
+    @commands.command(name='on')
+    async def _on(self, ctx: commands.Context, *, search: str):
+        # TODO: Modify code to turn in a radio
         """Plays a song.
         If there are songs in the queue, this will be queued until the
         other songs finished playing.
@@ -501,7 +505,7 @@ class Music(commands.Cog):
                 await ctx.send('Enqueued {}'.format(str(source)))
 
     @_join.before_invoke
-    @_play.before_invoke
+    @_on.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
         if not ctx.author.voice or not ctx.author.voice.channel:
             raise commands.CommandError(

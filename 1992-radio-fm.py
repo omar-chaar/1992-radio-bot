@@ -217,6 +217,7 @@ class VoiceState:
 
         self._loop = False
         self._volume = 0.5
+        self.unmute_volume = 0.5
         self.skip_votes = set()
 
         self.audio_player = bot.loop.create_task(self.audio_player_task())
@@ -235,15 +236,12 @@ class VoiceState:
     @property
     def volume(self):
         return self._volume
-
-    @volume.setter
-    def volume(self, value: float):
-        self._volume = value
-
+    
     @property
     def is_playing(self):
         return self.voice and self.current
 
+    
     async def audio_player_task(self):
         while True:
             self.next.clear()
@@ -363,7 +361,7 @@ class Music(commands.Cog):
         if ctx.voice_client is None:
             return await ctx.send('Nothing being played at the moment.')
 
-        if 0 > volume > 100:
+        if 0 > volume or volume > 100:
             return await ctx.send('Volume must be between 0 and 100')
 
         ctx.voice_client.source.volume = volume / 100
@@ -378,12 +376,12 @@ class Music(commands.Cog):
     @commands.command(name='mute')
     @commands.has_permissions(manage_guild=True)
     async def _mute(self, ctx: commands.Context):
-        #TODO: CHANGE VOLUME 0 AND SAVE THE CURRENT VOLUME
+        #TODO: SAVE THE CURRENT VOLUME
         """Pauses the currently playing song."""
 
-        if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_playing():
-            ctx.voice_state.voice.pause()
-            await ctx.message.add_reaction('⏯')
+        
+        ctx.voice_client.source.volume = 0
+        await ctx.message.add_reaction('🔇')
 
     @commands.command(name='unmute')
     @commands.has_permissions(manage_guild=True)
@@ -393,7 +391,7 @@ class Music(commands.Cog):
 
         if not ctx.voice_state.is_playing and ctx.voice_state.voice.is_paused():
             ctx.voice_state.voice.resume()
-            await ctx.message.add_reaction('⏯')
+            await ctx.message.add_reaction('🔊')
 
     @commands.command(name='off')
     @commands.has_permissions(manage_guild=True)
@@ -519,6 +517,7 @@ class Music(commands.Cog):
 
 
 bot = commands.Bot('tune.', description='Yet another music bot.')
+
 bot.add_cog(Music(bot))
 
 

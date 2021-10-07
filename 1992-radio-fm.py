@@ -66,6 +66,7 @@ class YTDLSource(discord.PCMVolumeTransformer):
 class Music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.volume = 1        
 
     @commands.command()
     async def join(self, ctx, *, channel: discord.VoiceChannel):
@@ -111,16 +112,27 @@ class Music(commands.Cog):
 
         if ctx.voice_client is None:
             return await ctx.send("Not connected to a voice channel.")
-
-        ctx.voice_client.source.volume = volume / 100
+        self.volume = volume / 100
+        ctx.voice_client.source.volume = self.volume
         await ctx.send(f"Changed volume to {volume}%")
+
+    @commands.command()
+    async def mute(self, ctx):
+        """sets volume of the bot to 0"""
+        ctx.voice_client.source.volume = 0
+        await ctx.message.add_reaction('🔇')
+
+    @commands.command()
+    async def unmute(self, ctx):
+        """Sets volume back to normal"""        
+        ctx.voice_client.source.volume = self.volume
+        await ctx.message.add_reaction('🔊')
 
     @commands.command()
     async def stop(self, ctx):
         """Stops and disconnects the bot from voice"""
 
         await ctx.voice_client.disconnect()
-
     @play.before_invoke
     @yt.before_invoke
     @stream.before_invoke

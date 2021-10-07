@@ -112,8 +112,11 @@ class Music(commands.Cog):
 
         if ctx.voice_client is None:
             return await ctx.send("Not connected to a voice channel.")
-        self.volume = volume / 100
-        ctx.voice_client.source.volume = self.volume
+        if volume < 1 or volume > 100:
+            return await ctx.send("Please choose a number between 1 and 100")        
+        else:
+            self.volume = volume / 100
+            ctx.voice_client.source.volume = self.volume
         await ctx.send(f"Changed volume to {volume}%")
 
     @commands.command()
@@ -121,10 +124,10 @@ class Music(commands.Cog):
         """sets volume of the bot to 0 and unmutes otherwise"""
         if ctx.voice_client.source.volume == 0:
             ctx.voice_client.source.volume = self.volume
-            return await ctx.message.add_reaction('🔊')
+            await ctx.message.add_reaction('🔊')
         else:
             ctx.voice_client.source.volume = 0
-            return await ctx.message.add_reaction('🔇')
+            await ctx.message.add_reaction('🔇')
 
     @commands.command()
     async def unmute(self, ctx):

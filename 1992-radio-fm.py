@@ -118,9 +118,13 @@ class Music(commands.Cog):
 
     @commands.command()
     async def mute(self, ctx):
-        """sets volume of the bot to 0"""
-        ctx.voice_client.source.volume = 0
-        await ctx.message.add_reaction('🔇')
+        """sets volume of the bot to 0 and unmutes otherwise"""
+        if ctx.voice_client.source.volume == 0:
+            ctx.voice_client.source.volume = self.volume
+            return await ctx.message.add_reaction('🔊')
+        else:
+            ctx.voice_client.source.volume = 0
+            return await ctx.message.add_reaction('🔇')
 
     @commands.command()
     async def unmute(self, ctx):

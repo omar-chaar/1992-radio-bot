@@ -108,16 +108,15 @@ class Music(commands.Cog):
 
     @commands.command()
     async def volume(self, ctx, volume: int):
-        """Changes the player's volume"""
-
+        """Changes the player's volume"""       
         if ctx.voice_client is None:
             return await ctx.send("Not connected to a voice channel.")
         if volume < 1 or volume > 100:
-            return await ctx.send("Please choose a number between 1 and 100")        
-        else:
-            self.volume = volume / 100
-            ctx.voice_client.source.volume = self.volume
-        await ctx.send(f"Changed volume to {volume}%")
+            return await ctx.send("Please choose a number between 1 and 100.")      
+        reaction = '🔊' if volume > self.volume * 100 else '🔉'
+        self.volume = volume / 100
+        ctx.voice_client.source.volume = self.volume
+        await ctx.message.add_reaction(reaction)
 
     @commands.command()
     async def mute(self, ctx):

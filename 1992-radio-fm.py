@@ -112,9 +112,10 @@ class Music(commands.Cog):
         if ctx.voice_client is None:
             return await ctx.send("Not connected to a voice channel.")
         if volume < 1 or volume > 100:
-            return await ctx.send("Please choose a number between 1 and 100.")      
-        reaction = '🔊' if volume > self.volume * 100 else '🔉'
-        self.volume = volume / 100
+            return await ctx.send("Please choose a number between 1 and 100.") 
+        volume = volume / 100     
+        reaction = '🔊' if volume > self.volume else '🔉'
+        self.volume = volume
         ctx.voice_client.source.volume = self.volume
         await ctx.message.add_reaction(reaction)
 
@@ -133,12 +134,24 @@ class Music(commands.Cog):
         """Sets volume back to normal"""        
         ctx.voice_client.source.volume = self.volume
         await ctx.message.add_reaction('🔊')
-
     @commands.command()
-    async def stop(self, ctx):
+    async def on(self, ctx):
+        """Joins the voice channel and play a radio"""
+        if ctx.author.voice is None:
+            return await ctx.channel.send("Please connect to a Voice Channel to use this command.")
+        channel = ctx.author.voice.channel
+        if ctx.voice_client is not None:
+            await ctx.voice_client.move_to(channel)
+        else:
+            await channel.connect()
+        #TODO: PLAY MUSIC
+    
+    @commands.command()
+    async def off(self, ctx):
         """Stops and disconnects the bot from voice"""
 
-        await ctx.voice_client.disconnect()
+        await ctx.voice_client.disconnect() 
+      
     @play.before_invoke
     @yt.before_invoke
     @stream.before_invoke

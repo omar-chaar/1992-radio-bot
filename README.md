@@ -1,6 +1,6 @@
 # 1992 Radio Station
 
-This project aims to bring up the nostalgia of GTA San Andreas to your daily voice chat with your friends, and what better way to do it other than good music?
+This project aims to bring up the nostalgia of GTA San Andreas to your daily voice chat with your friends in Discord, and what better way to do it other than good music?
 
 [![K-Rose](https://vignette.wikia.nocookie.net/gtafanon/images/5/5e/3BE04CD7-112F-45A4-A94D-73DFC72A4286.png/revision/latest/scale-to-width-down/2000?cb=20190521011122 "K-Rose")](https://vignette.wikia.nocookie.net/gtafanon/images/5/5e/3BE04CD7-112F-45A4-A94D-73DFC72A4286.png/revision/latest/scale-to-width-down/2000?cb=20190521011122 "K-Rose")
 
